@@ -27,8 +27,14 @@ class App extends Component {
     fetch('http://localhost:9090/notes')
     .then(res =>res.json())
     .then(resjson => this.setState({notes: resjson}))
-
   }
+
+  deleteNote = noteId => {
+    const newNotes = this.state.notes.filter((note) => note.id !== noteId);
+    this.setState({notes: newNotes})
+  }
+
+ 
 
   componentDidMount() {
     // fake date loading from API call
@@ -37,8 +43,6 @@ class App extends Component {
     this.getFolders()
     this.getNotes()
   }
-
- 
 
   renderNavRoutes() {
     // const { notes, folders } = this.state
@@ -145,7 +149,8 @@ class App extends Component {
 
     const contextValue = {
       folders: this.state.folders,
-      notes: this.state.notes
+      notes: this.state.notes,
+      deleteNote: this.deleteNote
     }
 
     return (

@@ -12,7 +12,16 @@ class NoteListMain extends Component {
   render(){
     const {notes} = this.context;
     const folderId = this.props.match.params.folderId
-    const notesInFolder = notes.filter((note) => note.folderId === folderId)
+
+    const notesInFolder = notes.filter((note) => 
+    {if(folderId){
+     return  note.folderId === folderId
+    } else{
+      return note
+    }}
+  );
+
+
     return (
       <section className='NoteListMain'>
         <ul>
@@ -22,6 +31,8 @@ class NoteListMain extends Component {
                 id={note.id}
                 name={note.name}
                 modified={note.modified}
+                history={this.props.history}
+                match={this.props.match}
               />
             </li>
           )}
