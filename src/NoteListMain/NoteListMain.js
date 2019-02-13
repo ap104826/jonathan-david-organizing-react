@@ -11,11 +11,12 @@ class NoteListMain extends Component {
   static contextType = NotesContext
   render(){
     const {notes} = this.context;
-
+    const folderId = this.props.match.params.folderId
+    const notesInFolder = notes.filter((note) => note.folderId === folderId)
     return (
       <section className='NoteListMain'>
         <ul>
-          {notes.map(note =>
+          {notesInFolder.map(note =>
             <li key={note.id}>
               <Note
                 id={note.id}
