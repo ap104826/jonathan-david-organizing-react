@@ -7,9 +7,8 @@ import NoteListMain from '../NoteListMain/NoteListMain'
 import NotePageMain from '../NotePageMain/NotePageMain'
 import AddFolder from '../AddFolder/AddFolder'
 import AddNote from '../AddNote/AddNote'
-import dummyStore from '../dummy-store'
-import NotesContext from './NotesContext';
-import { getNotesForFolder, findNote, findFolder } from '../notes-helpers'
+import NotesContext from '../NotesContext';
+import { findNote } from '../notes-helpers'
 import './App.css'
 
 class App extends Component {
@@ -18,13 +17,31 @@ class App extends Component {
     folders: [],
   };
 
-  componentDidMount() {
-    // fake date loading from API call
-    setTimeout(() => this.setState(dummyStore), 600)
+  getFolders() {
+    fetch('http://localhost:9090/folders')
+    .then(res => res.json())
+    .then(resjson => this.setState({folders: resjson}))
   }
 
+  getNotes() {
+    fetch('http://localhost:9090/notes')
+    .then(res =>res.json())
+    .then(resjson => this.setState({notes: resjson}))
+
+  }
+
+  componentDidMount() {
+    // fake date loading from API call
+    // setTimeout(() => this.setState(dummyStore), 600)
+    //fetch 1)folders and 2) notes
+    this.getFolders()
+    this.getNotes()
+  }
+
+ 
+
   renderNavRoutes() {
-    const { notes, folders } = this.state
+    // const { notes, folders } = this.state
     return (
       <>
         {['/', '/folder/:folderId'].map(path =>
@@ -33,7 +50,7 @@ class App extends Component {
             key={path}
             path={path}
             // render={routeProps =>
-            //   <NoteListNav
+            //   <NotegetNav
             //     folders={folders}
             //     notes={notes}
             //     {...routeProps}
@@ -70,7 +87,7 @@ class App extends Component {
   }
 
   renderMainRoutes() {
-    const { notes, folders } = this.state
+    const { notes } = this.state
     return (
       <>
         {['/', '/folder/:folderId'].map(path =>
