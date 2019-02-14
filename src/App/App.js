@@ -9,6 +9,7 @@ import NotesContext from '../NotesContext';
 import AddFolder from '../AddFolder/AddFolder';
 import AddNote from '../AddNote/AddNote';
 import { findNote } from '../notes-helpers';
+import HandleError from '../HandleError';
 import './App.css'
 
 class App extends Component {
@@ -63,37 +64,21 @@ class App extends Component {
   }
 
   renderNavRoutes() {
-    // const { notes, folders } = this.state
     return (
+      <HandleError>
       <>
         {['/', '/folder/:folderId'].map(path =>
+        
           <Route
             exact
             key={path}
             path={path}
-            // render={routeProps =>
-            //   <NotegetNav
-            //     folders={folders}
-            //     notes={notes}
-            //     {...routeProps}
-            //   />
-            // }
             component={NoteListNav}
           />
+          
         )}
         <Route
           path='/note/:noteId'
-          // render={routeProps => {
-          //   const { noteId } = routeProps.match.params
-          //   const note = findNote(notes, noteId) || {}
-          //   const folder = findFolder(folders, note.folderId)
-          //   return (
-          //     <NotePageNav
-          //       {...routeProps}
-          //       folder={folder}
-          //     />
-          //   )
-          // }}
           component={NotePageNav}
         />
         <Route
@@ -104,29 +89,23 @@ class App extends Component {
           path='/add-note'
           component={AddNote}
         />
+        
       </>
+        </HandleError>
+      
     )
   }
 
   renderMainRoutes() {
     const { notes } = this.state
     return (
+      <HandleError>
       <>
         {['/', '/folder/:folderId'].map(path =>
           <Route
             exact
             key={path}
             path={path}
-            // render={routeProps => {
-            //   const { folderId } = routeProps.match.params
-            //   const notesForFolder = getNotesForFolder(notes, folderId)
-            //   return (
-            //     <NoteListMain
-            //       {...routeProps}
-            //       notes={notesForFolder}
-            //     />
-            //   )
-            // }}
             component={NoteListMain}
           />
         )}
@@ -144,22 +123,13 @@ class App extends Component {
           }}
         />
         <Route
-          path='/add-folder'
-          // component={AddFolder}
+          path='/add-folder'       
         />
         <Route
           path='/add-note'
-          // render={routeProps => {
-          //   return (
-          //     <AddNote
-          //       {...routeProps}
-          //       folders={folders}
-          //     />
-          //   )
-          // }}
-          // component={AddNote}
         />
       </>
+      </HandleError>
     )
   }
 
@@ -174,6 +144,7 @@ class App extends Component {
     }
 
     return (
+      <HandleError>
       <NotesContext.Provider value={contextValue}>
         <div className='App'>
           <nav className='App__nav'>
@@ -191,6 +162,7 @@ class App extends Component {
           </main>
         </div>
       </NotesContext.Provider>
+      </HandleError>
     )
   }
 }

@@ -11,6 +11,7 @@ export default class AddFolder extends Component {
       validMessage: ''
     }
   }
+  
   static contextType = NotesContext;
 
   updateFolder(name) {
