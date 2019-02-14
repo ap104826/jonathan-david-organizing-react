@@ -7,6 +7,7 @@ import NoteListMain from '../NoteListMain/NoteListMain'
 import NotePageMain from '../NotePageMain/NotePageMain'
 import NotesContext from '../NotesContext';
 import AddFolder from '../AddFolder/AddFolder';
+import AddNote from '../AddNote/AddNote';
 import { findNote } from '../notes-helpers';
 import './App.css'
 
@@ -47,7 +48,10 @@ class App extends Component {
 
   addFolder = (folder) => {
     this.setState({folders: [...this.state.folders, folder]})
-    console.log(this.state.folders)
+  }
+
+  addNote = (note) => {
+    this.setState({notes: [...this.state.notes, note]})
   }
 
   componentDidMount() {
@@ -98,7 +102,7 @@ class App extends Component {
         />
         <Route
           path='/add-note'
-          component={NotePageNav}
+          component={AddNote}
         />
       </>
     )
@@ -165,7 +169,8 @@ class App extends Component {
       folders: this.state.folders,
       notes: this.state.notes,
       deleteNote: this.deleteNote,
-      addFolder: this.addFolder
+      addFolder: this.addFolder,
+      addNote: this.addNote
     }
 
     return (

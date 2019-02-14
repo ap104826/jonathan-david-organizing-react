@@ -11,7 +11,6 @@ export default class AddFolder extends Component {
       validMessage: ''
     }
   }
-
   static contextType = NotesContext;
 
   updateFolder(name) {
@@ -62,6 +61,7 @@ export default class AddFolder extends Component {
   }
 
   render() {
+    console.log(this.props)
 
     const { addFolder } = this.context
 
