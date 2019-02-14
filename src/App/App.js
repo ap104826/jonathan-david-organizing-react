@@ -5,28 +5,39 @@ import NoteListNav from '../NoteListNav/NoteListNav'
 import NotePageNav from '../NotePageNav/NotePageNav'
 import NoteListMain from '../NoteListMain/NoteListMain'
 import NotePageMain from '../NotePageMain/NotePageMain'
-import AddFolder from '../AddFolder/AddFolder'
-import AddNote from '../AddNote/AddNote'
 import NotesContext from '../NotesContext';
-import { findNote } from '../notes-helpers'
+import AddFolder from '../AddFolder/AddFolder';
+import { findNote } from '../notes-helpers';
 import './App.css'
 
 class App extends Component {
   state = {
     notes: [],
-    folders: [],
+    folders: []
   };
 
   getFolders() {
     fetch('http://localhost:9090/folders')
-    .then(res => res.json())
+    .then(res => {
+      if(!res.ok) {
+        throw new Error('Opps! Something went wrong')
+      }
+      return res.json()
+    })
     .then(resjson => this.setState({folders: resjson}))
+    .catch(err => <NoteListMain error={err} />)
   }
 
   getNotes() {
     fetch('http://localhost:9090/notes')
-    .then(res =>res.json())
+    .then(res => {
+      if(!res.ok) {
+        throw new Error('Opps! Something went wrong')
+      }
+      return res.json()
+    })
     .then(resjson => this.setState({notes: resjson}))
+    .catch(err => <NoteListMain error={err} />)
   }
 
   deleteNote = noteId => {
@@ -34,7 +45,10 @@ class App extends Component {
     this.setState({notes: newNotes})
   }
 
- 
+  addFolder = (folder) => {
+    this.setState({folders: [...this.state.folders, folder]})
+    console.log(this.state.folders)
+  }
 
   componentDidMount() {
     // fake date loading from API call
@@ -80,7 +94,7 @@ class App extends Component {
         />
         <Route
           path='/add-folder'
-          component={NotePageNav}
+          component={AddFolder}
         />
         <Route
           path='/add-note'
@@ -127,7 +141,7 @@ class App extends Component {
         />
         <Route
           path='/add-folder'
-          component={AddFolder}
+          // component={AddFolder}
         />
         <Route
           path='/add-note'
@@ -139,7 +153,7 @@ class App extends Component {
           //     />
           //   )
           // }}
-          component={AddNote}
+          // component={AddNote}
         />
       </>
     )
@@ -150,7 +164,8 @@ class App extends Component {
     const contextValue = {
       folders: this.state.folders,
       notes: this.state.notes,
-      deleteNote: this.deleteNote
+      deleteNote: this.deleteNote,
+      addFolder: this.addFolder
     }
 
     return (

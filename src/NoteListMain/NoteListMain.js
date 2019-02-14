@@ -23,6 +23,9 @@ class NoteListMain extends Component {
 
 
     return (
+
+      !this.props.err ?
+
       <section className='NoteListMain'>
         <ul>
           {notesInFolder.map(note =>
@@ -50,6 +53,10 @@ class NoteListMain extends Component {
           </CircleButton>
         </div>
       </section>
+
+      :
+      
+      <h3>{this.props.error}</h3>
     )
   }
 }
